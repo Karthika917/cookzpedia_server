@@ -29,6 +29,8 @@ router.get('/get-recipe/:id',jwtMiddleware,recipesController.getRecipeById)
 //downloads
 router.post('/add-download/:rid',jwtMiddleware,downloadController.addRecipeDownload)
 router.get('/get-downloads',jwtMiddleware,downloadController.getDownloadedRecipes)
+router.delete('/delete-downloads/:rid',jwtMiddleware,downloadController.deleteDownloadedRecipe)
+
 
 router.post('/save-recipe/:rid',jwtMiddleware,savedRecipeController.addSavedRecipe)
 router.get('/get-savedrecipe',jwtMiddleware,savedRecipeController.getSavedRecipe)

@@ -10,7 +10,7 @@ exports.addRecipeDownload = async(req,res)=>{
        if(existingDownload){
           existingDownload.count+=1
           await existingDownload.save()
-          res.status(200).json(existingDownload)
+          return res.status(200).json(existingDownload)
        }
        
         const newDownload = new downloads({
@@ -37,3 +37,35 @@ exports.getDownloadedRecipes= async(req,res)=>{
         res.status(500).json(err)
     }
 }
+
+
+
+exports.deleteDownloadedRecipe = async (req, res) => {
+  try {
+    const { rid } = req.params;
+    const userId = req.payload;
+
+    const deleted = await downloads.findOneAndDelete({
+      userId,
+      recipeId: rid
+    });
+
+    if (!deleted) {
+      return res.status(404).json({
+        message: "Downloaded recipe not found"
+      });
+    }
+
+    res.status(200).json({
+      message: "Removed from downloads",
+      deleted
+    });
+
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({
+      message: "Server error",
+      error: err.message
+    });
+  }
+};
